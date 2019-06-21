@@ -1,20 +1,14 @@
-#include <algorithm>
-#include <fstream>
-#include <iostream>
-#include <iterator>
-#include <map>
-#include <sstream>
-#include <vector>
-#define SHIFT_CONSTANT 16
+#include "calc1c.hpp"
 using namespace std;
-template <class Container>
-void split1(const std::string &str, Container &cont) {
-  std::istringstream iss(str);
-  std::copy(std::istream_iterator<std::string>(iss),
-            std::istream_iterator<std::string>(), std::back_inserter(cont));
-}
 
 template <class Container>
+/**
+ * @brief  Função para se dividir uma string em divisores definidos
+ * @note  Pega de um site
+ * @param  &str: String a ser dividida
+ * @param  &cont: Container que carregará as strings oriundas da divisão
+ * @param  delim: Delimitador que define onde será dividida a string
+ */
 void split3(const std::string &str, Container &cont, char delim = ' ') {
   std::size_t current, previous = 0;
   current = str.find(delim);
@@ -25,30 +19,25 @@ void split3(const std::string &str, Container &cont, char delim = ' ') {
   }
   cont.push_back(str.substr(previous, current - previous));
 }
-map<string, int> instructions = {{"ADD", 0b000}, {"SUB", 0b001}, {"DIV", 0b010},
-                                 {"MUL", 0b011}, {"MC", 0b100},  {"MR", 0b110},
-                                 {"MW", 0b111},  {"HLT", 0b101}};
-
-map<string, int> registers = {
-    {"A", 0b00}, {"B", 0b01}, {"ACC", 0b10}, {"ZERO", 0b11}};
 
 vector<unsigned long> compiledInstructions;
 int main(int argc, char const *argv[]) {
   string file = argv[1], outputFile = "mem.txt";
+  int i = 0;
+  bool canDo = true;
+  string currInstruction;
+  unsigned long fullInstruction = 0;
+  string line;
 
   if (argc > 2) {
-    if (argv[2] != "-o") {
+    if ((string)argv[2] != (string) "-o") {
       cerr << ("Argumento invalido! Terminando programa... \n");
       return 1;
     }
     outputFile = argv[3];
   }
   fstream fileStream(file);
-  string currInstruction;
-  int i = 0;
-  bool canDo = true;
-  string line;
-  unsigned long fullInstruction = 0;
+
   while (getline(fileStream, line)) {
     stringstream stream(line);
     string opCode;

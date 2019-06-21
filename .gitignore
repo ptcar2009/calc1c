@@ -1,0 +1,10 @@
+### Arquivos obj ###
+**/**/obj/*
+*.o
+### Arquivos binários ###
+*.exe
+*.out
+### Arquivos workspace ###
+*.code-workspace
+### Arquivos de saida ###
+mem.txt
