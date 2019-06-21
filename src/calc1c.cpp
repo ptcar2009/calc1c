@@ -114,7 +114,12 @@ int main(int argc, char const *argv[]) {
     }
     fullInstruction += imediato;
     compiledInstructions.push_back(fullInstruction);
+    i++;
   }
+  while (i++ < 1024) {
+    compiledInstructions.push_back(0);
+  }
+
   FILE *outputStream = fopen(outputFile.c_str(), "w");
   if (canDo) {
     for (auto instruction : compiledInstructions)
